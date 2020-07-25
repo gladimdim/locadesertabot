@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "Bottlegram",
+	"category" : "LocaDesertaPackage",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "LocaDesertaBot",
+	"type" : "normal"
+}
