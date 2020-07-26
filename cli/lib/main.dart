@@ -26,4 +26,9 @@ void main() async {
       .onMessage()
       .where(controller.catchStoryTitles)
       .listen(controller.processStartStory);
+
+  teledart
+      .onMessage()
+      .where((message) => message.text == "Продовжити")
+      .listen(controller.processContinue);
 }

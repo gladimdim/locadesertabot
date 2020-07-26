@@ -1,12 +1,17 @@
 import 'dart:convert';
 
+import 'package:gladstoriesengine/gladstoriesengine.dart';
 import 'package:http/http.dart' as http;
+import 'package:locadesertabot/models/image_resolver.dart';
+import 'package:locadesertabot/models/story_bot.dart';
+import 'package:locadesertabot/models/story_user.dart';
 import 'package:teledart/model.dart';
 import 'package:teledart/telegram.dart';
 
 class Controller {
+  List<StoryUser> users = [];
   final Telegram bot;
-  List stories;
+  List<Story> stories = [];
   Controller({this.bot});
 
   processStart(Message message) {
@@ -14,7 +19,7 @@ class Controller {
   }
 
   processListStories(Message message) {
-    var titles = stories.map((story) => story["title"]);
+    var titles = stories.map((story) => story.title);
     bot.sendMessage(
       message.chat.id,
       "Список історій",
@@ -29,16 +34,54 @@ class Controller {
     var response = await http
         .get("https://locadeserta.com/game/assets/assets/story_catalog.json");
     var json = jsonDecode(response.body);
-    stories = json["stories"] as List;
+    var storyList = json["stories"] as List;
+    await Future.forEach(
+      storyList,
+      (element) async {
+        var story = await loadStory(
+          element,
+        );
+        stories.add(story);
+      },
+    );
+    print(stories.length);
   }
 
   bool catchStoryTitles(Message msg) {
-    var titles = stories.map((story) => story["title"]);
+    var titles = stories.map((story) => story.title);
     return titles.contains(msg.text);
   }
 
-  processStartStory(Message msg) {
+  processStartStory(Message msg) async {
     print("Starting the story: ${msg.text}");
-    bot.sendMessage(msg.chat.id, "Початок історії: ${msg.text}");
+    StoryUser currentUser = users.firstWhere(
+        (element) => element.username == msg.chat.username,
+        orElse: () => null);
+    if (currentUser == null) {
+      currentUser = StoryUser()..username = msg.chat.username;
+      users.add(currentUser);
+    }
+    var story = stories.where((element) => element.title == msg.text).first;
+    currentUser.currentStory = story;
+    createResponseForStory(currentUser.currentStory, bot, msg);
+  }
+
+  Future<Story> loadStory(Map storyMap) async {
+    var fetchStory = await http
+        .get("https://locadeserta.com/game/assets/${storyMap["storyPath"]}");
+    var story = Story.fromJson(fetchStory.body,
+        imageResolver: BackgroundImage.getRandomImageForType);
+    return story;
+  }
+
+  void processContinue(Message msg) {
+    StoryUser currentUser = users.firstWhere(
+        (element) => element.username == msg.chat.username,
+        orElse: () => null);
+    if (currentUser != null) {
+      createResponseForStory(currentUser.currentStory, bot, msg);
+    } else {
+      bot.sendMessage(msg.chat.id, "Спочатку почніть історію: /list_stories");
+    }
   }
 }
