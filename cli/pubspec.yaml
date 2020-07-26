@@ -1,0 +1,9 @@
+name: locadesertabot
+version: 0.0.1
+description: Description
+homepage: https://example-pet-store.com/newtify
+documentation: https://example-pet-store.com/newtify/docs
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+dependencies:
+  teledart: ^0.0.45
