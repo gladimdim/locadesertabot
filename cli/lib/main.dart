@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:http/http.dart' as http;
 import 'package:teledart/model.dart';
@@ -6,8 +7,9 @@ import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
 
 void main() {
-  var teledart = TeleDart(
-      Telegram('113351276:AAEWnlj-d-7oX2QE_5ETTtjcnNpJAmYBH38'), Event());
+  final envVars = Platform.environment;
+
+  var teledart = TeleDart(Telegram(envVars['BOT_TOKEN']), Event());
 
   teledart.start().then((me) => print('${me.username} is initialised'));
 
