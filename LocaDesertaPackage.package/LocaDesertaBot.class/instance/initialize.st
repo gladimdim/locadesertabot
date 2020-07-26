@@ -1,4 +1,5 @@
 initialization
-initialize 
+initialize
 super initialize .
-self registerCommand: #listStories: to: '/list_stories'
+stories := self allStoriesTitles.
+self registerCommand: #slashListStories: to: '/list_stories' 

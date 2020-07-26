@@ -1,5 +1,5 @@
-accessing
+as yet unclassified
 allStoriesTitles
-|stories|
-stories := self fetchCatalog.
-^stories collect: [:each | each at: #title]
+|titles|
+titles := self fetchCatalog.
+^ titles collect: [:each | each at: #title]
