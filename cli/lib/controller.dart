@@ -84,4 +84,13 @@ class Controller {
       bot.sendMessage(msg.chat.id, "Спочатку почніть історію: /list_stories");
     }
   }
+
+  processAnswerOption(int index, Message msg) {
+    StoryUser currentUser = users.firstWhere(
+        (element) => element.username == msg.chat.username,
+        orElse: () => null);
+
+    if (currentUser != null)
+      createResponseForOption(currentUser.currentStory, bot, msg, index);
+  }
 }

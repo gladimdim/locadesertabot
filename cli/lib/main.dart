@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:locadesertabot/controller.dart';
+import 'package:locadesertabot/models/hidden_instructions.dart';
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
 
@@ -31,4 +32,15 @@ void main() async {
       .onMessage()
       .where((message) => message.text == "Продовжити")
       .listen(controller.processContinue);
+
+  teledart.onMessage().where((message) {
+    var emoji = emojis.firstWhere((element) => message.text.contains(element),
+        orElse: () => null);
+    return emoji != null;
+  }).map((event) {
+    var emoji = emojis.firstWhere((element) => event.text.contains(element));
+    return [emojis.indexOf(emoji), event];
+  }).listen((data) {
+    controller.processAnswerOption(data[0], data[1]);
+  });
 }
