@@ -4,13 +4,14 @@ import 'package:locadesertabot/models/image_resolver.dart';
 import 'package:teledart/model.dart';
 import 'package:teledart/telegram.dart';
 
-void createResponseForStory(Story story, Telegram bot, Message msg) {
+void createResponseForStory(Story story, Telegram bot, Message msg) async {
   var currentImageType = story.currentPage.getCurrentNode().imageType;
   if (currentImageType != null) {
     BackgroundImage.nextRandomForType(currentImageType);
   }
+
+  var element = story.history.last;
   if (story.canContinue()) {
-    var element = story.history.last;
     if (element.imagePath != null) {
       bot.sendPhoto(msg.chat.id, element.imagePath[1]);
     }
@@ -19,6 +20,7 @@ void createResponseForStory(Story story, Telegram bot, Message msg) {
       msg.chat.id,
       element.text,
       reply_markup: ReplyKeyboardMarkup(
+        resize_keyboard: true,
         keyboard: [
           [KeyboardButton(text: "Продовжити")]
         ],
@@ -27,10 +29,12 @@ void createResponseForStory(Story story, Telegram bot, Message msg) {
     story.doContinue();
   } else {
     var emojiPointer = 0;
+    await bot.sendMessage(msg.chat.id, element.text);
     bot.sendMessage(
       msg.chat.id,
       "Виберіть опцію",
       reply_markup: ReplyKeyboardMarkup(
+        resize_keyboard: true,
         keyboard: story.currentPage.next
             .map((e) =>
                 [KeyboardButton(text: "${emojis[emojiPointer++]} ${e.text}")])
