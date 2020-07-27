@@ -1,1 +1,1 @@
-List<String> emojis = ["1", "2", "3"];
+List<String> emojis = ["1️⃣", "2️⃣", "3️⃣"];

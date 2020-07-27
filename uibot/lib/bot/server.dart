@@ -1,3 +1,4 @@
+import 'package:rxdart/rxdart.dart';
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
 import 'package:uibot/bot/bot_id.dart';
@@ -6,6 +7,12 @@ import 'package:uibot/bot/models/hidden_instructions.dart';
 
 class Server {
   TeleDart instance;
+  Stream changes;
+  BehaviorSubject _innerChanges = BehaviorSubject();
+
+  Server() {
+    changes = _innerChanges.stream;
+  }
 
   Future startBot() async {
     if (instance == null) {
@@ -30,6 +37,8 @@ class Server {
     instance.onMessage().listen((event) {
       print('Received event: ${event.text}');
     });
+
+    instance.onMessage().listen((msg) => _innerChanges.add(msg.text));
 
     instance
         .onMessage()

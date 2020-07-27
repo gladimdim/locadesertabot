@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Telegram Bot'),
     );
   }
 }
@@ -55,6 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            StreamBuilder(
+              stream: server.changes,
+              initialData: "Started",
+              builder: (context, snapshot) {
+                return Text("recevied message: ${snapshot.data}");
+
+              },
+            ),
             FlatButton(
               child: Text("Start"),
               onPressed: _startBot,
