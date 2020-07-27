@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
@@ -9,6 +11,7 @@ class Server {
   TeleDart instance;
   Stream changes;
   BehaviorSubject _innerChanges = BehaviorSubject();
+  Queue lastChanges = Queue();
 
   Server() {
     changes = _innerChanges.stream;
@@ -38,7 +41,13 @@ class Server {
       print('Received event: ${event.text}');
     });
 
-    instance.onMessage().listen((msg) => _innerChanges.add(msg.text));
+    instance.onMessage().listen((msg) {
+      if (lastChanges.length > 10) {
+        lastChanges.removeFirst();
+      }
+      lastChanges.addLast(msg.text);
+      _innerChanges.add(msg.text);
+    });
 
     instance
         .onMessage()

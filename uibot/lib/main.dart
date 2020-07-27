@@ -53,16 +53,24 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            Text(
+              "Last events: ",
+              style: TextStyle(fontSize: 22),
+            ),
             StreamBuilder(
               stream: server.changes,
               initialData: "Started",
               builder: (context, snapshot) {
-                return Text("recevied message: ${snapshot.data}");
-
+                return Column(
+                  children: server.lastChanges.toList().map((text) {
+                    return Text(text);
+                  }).toList(),
+                );
               },
             ),
+            Text("Control", style: TextStyle(fontSize: 25)),
             FlatButton(
               child: Text("Start"),
               onPressed: _startBot,
