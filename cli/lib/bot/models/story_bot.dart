@@ -11,15 +11,18 @@ void createResponseForStory(Story story, Telegram bot, Message msg) async {
   }
   var element = story.history.last;
   if (story.currentPage.isTheEnd() && !story.canContinue()) {
-    bot.sendMessage(msg.chat.id, element.text);
-    bot.sendMessage(msg.chat.id,
-        "Кінець! Введіть /list_stories, щоб вибрати наступну історію!");
+    story.reset();
+    await bot.sendMessage(msg.chat.id, element.text);
+    await bot.sendMessage(
+      msg.chat.id,
+      "Кінець! Введіть /list_stories, щоб вибрати наступну історію!\n Якщо ж натисните Продовжити, то історія почнеться спочатку",
+    );
     return;
   }
 
   if (story.canContinue()) {
     if (element.imagePath != null) {
-      bot.sendPhoto(msg.chat.id, element.imagePath[1]);
+      await bot.sendPhoto(msg.chat.id, element.imagePath[1]);
     }
 
     bot.sendMessage(
@@ -36,7 +39,7 @@ void createResponseForStory(Story story, Telegram bot, Message msg) async {
   } else {
     var emojiPointer = 0;
     await bot.sendMessage(msg.chat.id, element.text);
-    bot.sendMessage(
+    await bot.sendMessage(
       msg.chat.id,
       "Виберіть опцію",
       reply_markup: ReplyKeyboardMarkup(
