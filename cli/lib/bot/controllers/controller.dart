@@ -15,7 +15,13 @@ class Controller {
   Controller({this.bot});
 
   processStart(Message message) {
-    bot.sendMessage(message.chat.id, 'Привіт, це інтерактивні історії!');
+    bot.sendMessage(message.chat.id,
+        'Привіт, це інтерактивні історії! Всі вони присвячені добі козаччини, та описують різні історічні події.\nВведіть /list_stories, щоб вибрати вашу історію.');
+  }
+
+  processHelp(Message message) {
+    bot.sendMessage(message.chat.id,
+        "/list_stories - вибрати історію.\n\n Всі інші команди залежать від контексту. Просто користуйтесь вспливаючою клавіатурою.\nВ будь-який момент введіть /list_stories, щоб вибрати новую історію.");
   }
 
   processListStories(Message message) {

@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:locadesertabot/bot/bot_id.dart';
 import 'package:locadesertabot/bot/controllers/controller.dart';
 import 'package:locadesertabot/bot/models/hidden_instructions.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,11 +8,12 @@ import 'package:teledart/telegram.dart';
 
 class Server {
   TeleDart instance;
+  final String bot_token;
   Stream changes;
   BehaviorSubject _innerChanges = BehaviorSubject();
   Queue lastChanges = Queue();
 
-  Server() {
+  Server(this.bot_token) {
     changes = _innerChanges.stream;
   }
 
@@ -27,13 +27,15 @@ class Server {
   }
 
   Future initBot() async {
-    instance = TeleDart(Telegram(bot_id), Event());
+    instance = TeleDart(Telegram(bot_token), Event());
     var controller = Controller(bot: instance.telegram);
     await controller.loadStories();
 
     instance
         .onMessage(entityType: 'bot_command', keyword: 'start')
         .listen(controller.processStart);
+
+    instance.onCommand("help").listen(controller.processHelp);
 
     instance.onCommand('list_stories').listen(controller.processListStories);
 

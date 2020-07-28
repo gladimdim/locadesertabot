@@ -4,7 +4,9 @@ import 'package:locadesertabot/bot/server.dart';
 
 void main() async {
   final envVars = Platform.environment;
-  final server = Server();
+  final bot_token = envVars['BOT_TOKEN'];
+
+  final server = Server(bot_token);
 
   server.startBot();
 }
