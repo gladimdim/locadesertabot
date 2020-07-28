@@ -1,6 +1,6 @@
 import 'package:gladstoriesengine/gladstoriesengine.dart';
-import 'package:locadesertabot/models/hidden_instructions.dart';
-import 'package:locadesertabot/models/image_resolver.dart';
+import 'package:locadesertabot/bot/models/hidden_instructions.dart';
+import 'package:locadesertabot/bot/models/image_resolver.dart';
 import 'package:teledart/model.dart';
 import 'package:teledart/telegram.dart';
 
@@ -9,8 +9,14 @@ void createResponseForStory(Story story, Telegram bot, Message msg) async {
   if (currentImageType != null) {
     BackgroundImage.nextRandomForType(currentImageType);
   }
-
   var element = story.history.last;
+  if (story.currentPage.isTheEnd() && !story.canContinue()) {
+    bot.sendMessage(msg.chat.id, element.text);
+    bot.sendMessage(msg.chat.id,
+        "Кінець! Введіть /list_stories, щоб вибрати наступну історію!");
+    return;
+  }
+
   if (story.canContinue()) {
     if (element.imagePath != null) {
       bot.sendPhoto(msg.chat.id, element.imagePath[1]);

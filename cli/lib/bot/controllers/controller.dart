@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:gladstoriesengine/gladstoriesengine.dart';
 import 'package:http/http.dart' as http;
-import 'package:locadesertabot/models/image_resolver.dart';
-import 'package:locadesertabot/models/story_bot.dart';
-import 'package:locadesertabot/models/story_user.dart';
+import 'package:locadesertabot/bot/models/image_resolver.dart';
+import 'package:locadesertabot/bot/models/story_bot.dart';
+import 'package:locadesertabot/bot/models/story_user.dart';
 import 'package:teledart/model.dart';
 import 'package:teledart/telegram.dart';
 
