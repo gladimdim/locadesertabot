@@ -21,7 +21,7 @@ class Controller {
 
   processHelp(Message message) {
     bot.sendMessage(message.chat.id,
-        "/list_stories - вибрати історію.\n\n Всі інші команди залежать від контексту. Просто користуйтесь вспливаючою клавіатурою.\nВ будь-який момент введіть /list_stories, щоб вибрати новую історію.");
+        "/list - вибрати історію.\n\n Всі інші команди залежать від контексту. Просто користуйтесь вспливаючою клавіатурою.\nВ будь-який момент введіть /list_stories, щоб вибрати новую історію.");
   }
 
   processListStories(Message message) {
@@ -87,7 +87,7 @@ class Controller {
     if (currentUser != null) {
       createResponseForStory(currentUser.currentStory, bot, msg);
     } else {
-      bot.sendMessage(msg.chat.id, "Спочатку почніть історію: /list_stories");
+      bot.sendMessage(msg.chat.id, "Спочатку почніть історію: /list");
     }
   }
 

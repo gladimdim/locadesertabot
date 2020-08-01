@@ -15,7 +15,7 @@ void createResponseForStory(Story story, Telegram bot, Message msg) async {
     await bot.sendMessage(msg.chat.id, element.text);
     await bot.sendMessage(
       msg.chat.id,
-      "Кінець! Введіть /list_stories, щоб вибрати наступну історію!\n Якщо ж натисните Продовжити, то історія почнеться спочатку",
+      "Кінець! Введіть /list, щоб вибрати наступну історію!\n Якщо ж натисните Продовжити, то історія почнеться спочатку",
     );
     return;
   }
