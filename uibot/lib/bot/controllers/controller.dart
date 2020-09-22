@@ -20,7 +20,7 @@ class Controller {
 
   processListStories(Message message) async {
     await loadStories();
-    var titles = stories.map((story) => "${story.title}.");
+    var titles = stories.map((story) => story.title);
     bot.sendMessage(
       message.chat.id,
       "Список історій",
@@ -82,7 +82,7 @@ class Controller {
     if (currentUser != null) {
       createResponseForStory(currentUser.currentStory, bot, msg);
     } else {
-      bot.sendMessage(msg.chat.id, "Спочатку почніть історію: /list_stories");
+      bot.sendMessage(msg.chat.id, "Спочатку почніть історію: /list");
     }
   }
 

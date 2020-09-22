@@ -35,7 +35,7 @@ class Server {
         .onMessage(entityType: 'bot_command', keyword: 'start')
         .listen(controller.processStart);
 
-    instance.onCommand('list_stories').listen(controller.processListStories);
+    instance.onCommand('list').listen(controller.processListStories);
 
     instance.onMessage().listen((event) {
       print('Received event: ${event.text}');

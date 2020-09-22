@@ -18,7 +18,7 @@ void main() async {
       .onMessage(entityType: 'bot_command', keyword: 'start')
       .listen(controller.processStart);
 
-  teledart.onCommand('list_stories').listen(controller.processListStories);
+  teledart.onCommand('list').listen(controller.processListStories);
 
   teledart.onMessage().listen((event) {
     print('Received event: ${event.text}');

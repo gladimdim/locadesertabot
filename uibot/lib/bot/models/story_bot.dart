@@ -12,8 +12,8 @@ void createResponseForStory(Story story, Telegram bot, Message msg) async {
   var element = story.history.last;
   if (story.currentPage.isTheEnd() && !story.canContinue()) {
     bot.sendMessage(msg.chat.id, element.text);
-    bot.sendMessage(msg.chat.id,
-        "Кінець! Введіть /list_stories, щоб вибрати наступну історію!");
+    bot.sendMessage(
+        msg.chat.id, "Кінець! Введіть /list, щоб вибрати наступну історію!");
     return;
   }
 
