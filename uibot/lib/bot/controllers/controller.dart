@@ -20,7 +20,7 @@ class Controller {
 
   processListStories(Message message) async {
     await loadStories();
-    var titles = stories.map((story) => "${story.title}. ${story.year} рік");
+    var titles = stories.map((story) => "${story.title}.");
     bot.sendMessage(
       message.chat.id,
       "Список історій",
