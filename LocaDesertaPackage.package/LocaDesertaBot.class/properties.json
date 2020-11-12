@@ -6,7 +6,8 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"stories"
+		"stories",
+		"users"
 	],
 	"name" : "LocaDesertaBot",
 	"type" : "normal"
