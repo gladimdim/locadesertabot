@@ -1,6 +1,6 @@
-as yet unclassified
+action
 processContinueForMessage: aMessage
 |story|
 story := users at: aMessage chat id.
 story currentPage doContinue.
-^ story currentPage currentText
+self sendChatMessage: story currentPage currentText to: aMessage chat id printString
