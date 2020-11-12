@@ -5,4 +5,4 @@ storyTitle := aMessage text.
 
 story := (stories select: [:each | storyTitle = (each at: #title)]) at: 1.
 storyObj := (self fetchStoryByMeta: story).
-aMessage answer: storyTitle
+aMessage answer: (storyObj currentPage currentText)

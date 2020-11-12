@@ -1,7 +1,7 @@
 accessing
 slashListStories: aMessage
 |markup array dict dict1|
-array := self stories collect: [:each | { Dictionary newFrom: {#text -> each}}].
+array := self allStoriesTitles collect: [:each | { Dictionary newFrom: {#text -> each}}].
 
 
 markup := Dictionary new.
