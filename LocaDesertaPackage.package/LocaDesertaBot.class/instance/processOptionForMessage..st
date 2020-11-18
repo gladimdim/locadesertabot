@@ -1,9 +1,10 @@
 accessing
 processOptionForMessage: aMessage
 |story answers array markup |
-story := users at: aMessage chat id ifAbsent: [aMessage answer: 'Спочатку виберіть історію'. ^ nil].
+story := self findStoryOrAnswer: aMessage.
+story ifNil: [^ nil].
 answers := story currentPage nextOptionsText.
 array := answers collect: [:answer | {Dictionary newFrom: {#text -> answer}}. ].
 markup := Dictionary new.
-markup at: 'keyboard' put: { array }; at: 'resize_keyboard' put: true.
+markup at: 'keyboard' put: array; at: 'resize_keyboard' put: true.
 aMessage send: 'Виберіть опцію' withReplyMarkup: markup
